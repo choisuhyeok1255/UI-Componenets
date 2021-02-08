@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Stopwatch</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Source Code Pro', monospace;
+    }
+
+    .title {
+      color: #db5b33;
+      font-weight: 300;
+      text-align: center;
+    }
+
+    .stopwatch {
+      text-align: center;
+      font-size: 3em;
+      padding: 30px;
+    }
+
+    .control {
+      width: 120px;
+      padding: 5px;
+      margin: 15px;
+      font-size: 36px;
+      font-weight: bold;
+      border: 2px solid #f44336;
+      border-radius: 4px;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .control:hover:enabled {
+      background: #f44336;
+      color: aliceblue;
+    }
+
+    .control:disabled {
+      color: gray;
+      cursor: not-allowed;
+    }
+
+    .laps {
+      display: grid;
+      grid-template-columns: 70px 1fr;
+      column-gap: 50px;
+      row-gap: 10px;
+      width: 260px;
+      margin: 10px auto;
+      font-size: 0.5em;
+    }
+  </style>
+</head>
+
+<body>
+  <h1 class="title">Stopwatch</h1>
+  <div class="stopwatch">
+    <div class="display">00:00:00</div>
+    <button class="control">Start</button>
+    <button class="control" disabled="false">Reset</button>
+    <div class="laps">
+      <div class="lap-title">Laps</div>
+      <div class="lap-title">Time</div>
+      <!-- 아래는 자바스크립트로 동적 생성한다. -->
+      <!-- <div>1</div>
+      <div>00:00:65</div>
+      <div>2</div>
+      <div>00:01:21</div>
+      <div>3</div>
+      <div>00:03:95</div> -->
+    </div>
+  </div>
+  <script>
+    const $display = document.querySelector('.display');
+    const $start = document.querySelectorAll('.control');
+    const $start1 = $start[0];
+    const $start2 = $start[1];
+    const $laps = document.querySelector('.laps');
+
+    const mmText = document.createTextNode('00');
+    const coloneText1 = document.createTextNode(':');
+    const ssText = document.createTextNode('00');
+    const coloneText2 = document.createTextNode(':');
+    const msText = document.createTextNode('00');
+
+    //타이머 시간표시
+    $display.appendChild(mmText);
+    $display.appendChild(coloneText1);
+    $display.appendChild(ssText);
+    $display.appendChild(coloneText2);
+    $display.appendChild(msText);
+
+    //00:00:00삭제
+    $display.removeChild($display.firstChild);
+
+    // 타이머 ID 보관
+    let timerId = null;
+
+    function timeStart() {
+      msText.textContent++;
+      if (msText.textContent < 10) msText.textContent = '0' + msText.textContent;
+
+      if (msText.textContent === '60') {
+        msText.textContent = '00';
+
+        ssText.textContent++;
+        if (ssText.textContent < 10) ssText.textContent = '0' + ssText.textContent;
+      }
+
+      if (ssText.textContent === '60') {
+        ssText.textContent = '00';
+
+        mmText.textContent++;
+        if (mmText.textContent < 10) mmText.textContent = '0' + mmText.textContent;
+      }
+    }
+
+    $start1.onclick = () => {
+      if ($start1.textContent === 'Start') {
+        $start1.textContent = 'Stop';
+        $start2.textContent = 'Lap';
+        $start2.removeAttribute('disabled');
+
+        // timeStart();
+        timerId = setInterval(timeStart, 10);
+      } else {
+        $start1.textContent = 'Start';
+        $start2.textContent = 'Reset';
+        clearInterval(timerId);
+      }
+    };
+
+    $start2.onclick = () => {
+      if ($start2.textContent === 'Lap') {
+        //Laps 만들기
+        const $div = document.createElement('div');
+        const divList = document.createTextNode($laps.children.length / 2);
+        const $lap = document.createElement('div');
+        const lapTime = document.createTextNode($display.textContent);
+
+        $div.appendChild(divList);
+        $laps.appendChild($div);
+        $lap.appendChild(lapTime);
+        $laps.appendChild($lap);
+      } else {
+        const lapsLength = $laps.children.length;
+
+        //reset버튼 누르면 Laps 삭제
+        for (let i = 0; i < lapsLength + 2; i++) {
+          $laps.removeChild($laps.lastChild);
+        }
+
+        $start2.setAttribute('disabled', 'true');
+
+        mmText.textContent = '00';
+        msText.textContent = '00';
+        ssText.textContent = '00';
+      }
+    };
+
+    //Reset버튼 활성화
+    if ($start2.children.length > 0) $start2.removeAttribute('disabled');
+  </script>
+</body>
+
+</html>
