@@ -163,34 +163,45 @@
   </div>
 
   <script>
-    let today = new Date();
-    console.log(today.getHours());
-    console.log(today.getMinutes());
-    console.log(today.getMilliseconds());
-
     const $hour = document.querySelector('.hour');
     const $minute = document.querySelector('.minute');
     const $second = document.querySelector('.second');
 
     // const start = setInterval($hour.style.), 100);
-    let second = 0;
-    let minute = 0;
-    let hour = 0;
+
+    // const today = new Date();
+    // let nowHours = today.getHours();
+    // let nowMinutes = today.getMinutes();
+    // let nowSeconds = today.getSeconds();
+
+    // console.log(nowHours);
+    // console.log(nowMinutes);
+    // console.log(nowSeconds);
 
     const time = setInterval(() => {
-      $second.style.setProperty('--deg', second += 6);
 
-      if(second === 360) {
-        second = 0;
-        $minute.style.setProperty('--deg', minute += 6);
-      }
+      const today = new Date();
+      const nowHours = today.getHours();
+      const nowMinutes = today.getMinutes();
+      const nowSeconds = today.getSeconds();
 
-      if(minute === 360) {
-        minute = 0;
-        $hour.style.setProperty('--deg', hour += 30);
-      }
+      console.log(nowHours);
 
-      if(hour === 360) hour = 0;
+      $hour.style.setProperty('--deg', nowHours * 30);
+      $minute.style.setProperty('--deg', nowMinutes * 6);
+      $second.style.setProperty('--deg', nowSeconds * 6);
+
+      // if (Seconds === 360) {
+      //   Seconds = 0;
+      //   $minute.style.setProperty('--deg', Minutes += 6);
+      // }
+
+      // if (Minutes === 360) {
+      //   Minutes = 0;
+      //   $hour.style.setProperty('--deg', Hours += 30);
+      // }
+
+      // if (Hours === 360) Hours = 0;
     }, 1000);
   </script>
 </body>
