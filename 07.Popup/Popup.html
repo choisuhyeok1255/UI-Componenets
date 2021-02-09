@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Popup</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400" rel="stylesheet" />
+  <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+  <style>
+    *,
+    *::after,
+    *::before {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Open Sans';
+      font-weight: 300;
+    }
+
+    .title {
+      color: #db5b33;
+      font-weight: 300;
+      text-align: center;
+    }
+
+    /* 팝업을 위한 CSS */
+
+    .modal {
+      display: none;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      background: yellow;
+    }
+
+    .modal-content {
+    }
+
+    .modal-close {
+      float: right;
+    }
+    .modal-headline{
+      display: block;
+      margin: auto;
+      clear: both;
+    }
+    .popup-message {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <h1 class="title">Popup</h1>
+
+  <!-- 팝업을 위한 HTML -->
+  <button class="popup-button">toogle popup</button>
+
+  <div class="modal">
+    <div class="modal-content">
+      <button class="modal-close">X</button>
+      <h2 class="modal-headline">Hello!</h2>
+      <p class="popup-message"> "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+        incididunt
+        ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+        aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+        anim id est laborum."</p>
+    </div>
+  </div>
+  <script>
+    const $popupButton = document.querySelector('.popup-button');
+    const $modal = document.querySelector('.modal');
+    const $modalClose = document.querySelector('.modal-close');
+
+    $popupButton.onclick = () => {
+      $modal.style.display = "block";
+    };
+
+    $modalClose.onclick = () => {
+      $modal.style.display = "none";
+    };
+  </script>
+</body>
+
+</html>
