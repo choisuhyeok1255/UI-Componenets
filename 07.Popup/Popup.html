@@ -31,22 +31,25 @@
     .modal {
       display: none;
       z-index: 1;
-      width: 100%;
-      height: 100%;
+      width: 520px;
+      height: 300px;
       background: yellow;
+      margin: auto;
+      margin-top: 20%;
     }
 
-    .modal-content {
-    }
+    .modal-content {}
 
     .modal-close {
       float: right;
     }
-    .modal-headline{
+
+    .modal-headline {
       display: block;
       margin: auto;
       clear: both;
     }
+
     .popup-message {
       display: block;
     }
@@ -59,22 +62,31 @@
   <!-- 팝업을 위한 HTML -->
   <button class="popup-button">toogle popup</button>
 
+  <p class="popup-message"></p>
   <div class="modal">
     <div class="modal-content">
       <button class="modal-close">X</button>
       <h2 class="modal-headline">Hello!</h2>
-      <p class="popup-message"> "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+      <p class="modal-main"> "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
         incididunt
         ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
         aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
         fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
         anim id est laborum."</p>
+      <input class="input" type="text">
+      <button class="ok-button">OK</button>
+      <button class="cancel-button">Cancel</button>
     </div>
   </div>
+  </div>
   <script>
+    const $body = document.querySelector('body');
     const $popupButton = document.querySelector('.popup-button');
     const $modal = document.querySelector('.modal');
     const $modalClose = document.querySelector('.modal-close');
+    const $popupMessage = document.querySelector('.popup-message');
+    const $input = document.querySelector('.input');
+
 
     $popupButton.onclick = () => {
       $modal.style.display = "block";
@@ -83,6 +95,21 @@
     $modalClose.onclick = () => {
       $modal.style.display = "none";
     };
+
+    // $body.onclick = e => {
+    //   // if (e.target.class === 'modal-content') return;
+    //   console.log(e.target.classList);
+
+    // };
+
+    $input.onkeyup = e => {
+      if (e.key !== 'Enter') return;
+      // console.log($input.value);
+      $popupMessage.textContent = $input.value;
+      $input.value = '';
+      $modal.style.display = "none";
+
+    }
   </script>
 </body>
 

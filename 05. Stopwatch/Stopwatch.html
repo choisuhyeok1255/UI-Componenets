@@ -77,11 +77,21 @@
     </div>
   </div>
   <script>
+    const time = {
+      mm: 0,
+      ss: 0,
+      ms: 0
+    };
+    
     const $display = document.querySelector('.display');
-    const $start = document.querySelectorAll('.control');
-    const $start1 = $start[0];
-    const $start2 = $start[1];
+    const [$start1, $start2] = document.querySelectorAll('.control');
+    // const $start = document.querySelectorAll('.control');
+    // const $start1 = $start[0];
+    // const $start2 = $start[1];
     const $laps = document.querySelector('.laps');
+
+    //00:00:00삭제
+    $display.removeChild($display.firstChild);
 
     const mmText = document.createTextNode('00');
     const coloneText1 = document.createTextNode(':');
@@ -89,20 +99,23 @@
     const coloneText2 = document.createTextNode(':');
     const msText = document.createTextNode('00');
 
+    const $fragment = document.createDocumentFragment();
+
     //타이머 시간표시
-    $display.appendChild(mmText);
-    $display.appendChild(coloneText1);
-    $display.appendChild(ssText);
-    $display.appendChild(coloneText2);
-    $display.appendChild(msText);
+    $fragment.appendChild(mmText);
+    $fragment.appendChild(coloneText1);
+    $fragment.appendChild(ssText);
+    $fragment.appendChild(coloneText2);
+    $fragment.appendChild(msText);
 
-    //00:00:00삭제
-    $display.removeChild($display.firstChild);
+    $display.appendChild($fragment);
 
-    // 타이머 ID 보관
-    let timerId = null;
+    // $display.textContent = '00:00:00';
+
+
 
     function timeStart() {
+      console.log(msText.textContent);
       msText.textContent++;
       if (msText.textContent < 10) msText.textContent = '0' + msText.textContent;
 
@@ -121,20 +134,24 @@
       }
     }
 
-    $start1.onclick = () => {
-      if ($start1.textContent === 'Start') {
-        $start1.textContent = 'Stop';
-        $start2.textContent = 'Lap';
-        $start2.removeAttribute('disabled');
+    $start1.onclick = (() => {
+      // 타이머 ID 보관
+      let timerId = null;
+      return () => {
+        if ($start1.textContent === 'Start') {
+          $start1.textContent = 'Stop';
+          $start2.textContent = 'Lap';
+          $start2.removeAttribute('disabled');
 
-        // timeStart();
-        timerId = setInterval(timeStart, 10);
-      } else {
-        $start1.textContent = 'Start';
-        $start2.textContent = 'Reset';
-        clearInterval(timerId);
-      }
-    };
+          // timeStart();
+          timerId = setInterval(timeStart, 10);
+        } else {
+          $start1.textContent = 'Start';
+          $start2.textContent = 'Reset';
+          clearInterval(timerId);
+        }
+      };
+    })();
 
     $start2.onclick = () => {
       if ($start2.textContent === 'Lap') {
